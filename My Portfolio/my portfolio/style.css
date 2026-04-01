@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=EB+Garamond:wght@400;500&display=swap');
+
+/* ── Old Money Palette ──────────────────────────────────
+   --ink:     #1a1a12   (near-black, header/footer bg)
+   --parchment: #f5f0e8 (page background)
+   --cream:   #faf6ee   (card surface)
+   --linen:   #e8e0d0   (hero section)
+   --gold:    #c9a96e   (primary accent, borders)
+   --gold-dark:#8b6914  (links, hover)
+   --border:  #d4c4a0   (card/section borders)
+   --muted:   #5a4f3c   (secondary text)
+   --text:    #2c2416   (primary text)
+─────────────────────────────────────────────────────── */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'EB Garamond', Georgia, serif;
+}
+
+body {
+  line-height: 1.7;
+  color: #2c2416;
+  background: #f5f0e8;
+}
+
+/* ── Header ── */
+header {
+  background: #1a1a12;
+  color: #c9a96e;
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #8b6914;
+}
+
+header nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header nav ul {
+  list-style: none;
+  display: flex;
+}
+
+header nav ul li {
+  margin-left: 2rem;
+}
+
+header nav ul li a {
+  color: #c9a96e;
+  text-decoration: none;
+  letter-spacing: 0.1em;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  opacity: 0.85;
+  transition: opacity 0.3s;
+}
+
+header nav ul li a:hover {
+  opacity: 1;
+}
+
+/* ── Hero Section ── */
+#home {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+  text-align: center;
+  background: #e8e0d0;
+  border-bottom: 1px solid #c9a96e;
+}
+
+.hero img {  width:150px; height:170px; border-radius:3px; border:2px solid #faf6ee; box-shadow: 0 0 0 5px #c9a96e, 0 0 0 9px #1a1a12, 0 0 0 11px #c9a96e; }
+.hero h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.6rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  color: #1a1a12;
+  margin-bottom: 0.4rem;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  font-style: italic;
+  color: #5a4f3c;
+  margin-bottom: 1.5rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.65rem 2.2rem;
+  background: transparent;
+  color: #1a1a12;
+  text-decoration: none;
+  border: 1.5px solid #c9a96e;
+  letter-spacing: 0.14em;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  transition: background 0.3s, color 0.3s;
+}
+
+.btn:hover {
+  background: #1a1a12;
+  color: #c9a96e;
+}
+
+/* ── Sections ── */
+section {
+  padding: 4rem 2rem;
+  max-width: 1000px;
+  margin: auto;
+}
+
+section h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  color: #1a1a12;
+  margin-bottom: 0.4rem;
+  text-align: center;
+}
+
+/* Gold rule under headings */
+section h2::after {
+  content: '';
+  display: block;
+  width: 50px;
+  height: 1.5px;
+  background: #c9a96e;
+  margin: 0.5rem auto 2rem;
+}
+
+/* ── Projects ── */
+.project-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+}
+
+.project-card {
+  background: #faf6ee;
+  padding: 1.5rem;
+  border: 1px solid #d4c4a0;
+  width: 250px;
+  text-align: center;
+  transition: border-color 0.3s;
+}
+
+.project-card:hover {
+  border-color: #c9a96e;
+}
+
+.project-card a {
+  display: inline-block;
+  margin-top: 1rem;
+  text-decoration: none;
+  color: #8b6914;
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-bottom: 1px solid #c9a96e;
+  padding-bottom: 1px;
+}
+
+/* ── Skills ── */
+#skills ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
+#skills li {
+  background: #faf6ee;
+  padding: 0.45rem 1.2rem;
+  border: 1px solid #d4c4a0;
+  letter-spacing: 0.08em;
+  font-size: 0.9rem;
+  color: #2c2416;
+}
+
+/* ── Contact ── */
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  margin: auto;
+}
+
+form input, form textarea {
+  margin-bottom: 1rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid #d4c4a0;
+  background: #faf6ee;
+  color: #2c2416;
+  font-family: 'EB Garamond', serif;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+form input:focus, form textarea:focus {
+  border-color: #c9a96e;
+}
+
+form button {
+  padding: 0.75rem;
+  border: 1.5px solid #c9a96e;
+  background: transparent;
+  color: #1a1a12;
+  font-family: 'EB Garamond', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+
+form button:hover {
+  background: #1a1a12;
+  color: #c9a96e;
+}
+
+/* ── Footer ── */
+footer {
+  text-align: center;
+  padding: 2rem;
+  background: #1a1a12;
+  color: #7a6a4f;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  border-top: 1px solid #8b6914;
+}
