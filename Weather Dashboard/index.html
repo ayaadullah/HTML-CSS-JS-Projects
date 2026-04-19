@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stratos — Weather Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="weather-default">
+
+  <!-- ── Ambient Background ───────────────────────────────────────── -->
+  <div class="ambient-bg">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+    <div class="noise-overlay"></div>
+  </div>
+
+  <!-- ── App Wrapper ───────────────────────────────────────────────── -->
+  <div class="app">
+
+    <!-- ── Header ─────────────────────────────────────────────────── -->
+    <header class="app-header">
+      <div class="logo">
+        <span class="logo-icon">◈</span>
+        <span class="logo-text">STRATOS</span>
+      </div>
+      <div class="search-wrap">
+        <div class="search-box" id="searchBox">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input type="text" id="searchInput" placeholder="Search city..." autocomplete="off" spellcheck="false" />
+          <button id="searchBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+        </div>
+        <div class="suggestions" id="suggestions"></div>
+      </div>
+      <div class="header-right">
+        <button class="unit-toggle" id="unitToggle">
+          <span id="unitLabel">°C</span>
+        </button>
+        <div class="header-date" id="headerDate"></div>
+      </div>
+    </header>
+
+    <!-- ── Loading State ─────────────────────────────────────────── -->
+    <div class="loader" id="loader">
+      <div class="loader-icon">
+        <!-- Animated sun for loading -->
+        <div class="icon-sun loading-sun">
+          <div class="sun-core"></div>
+          <div class="sun-rays">
+            <div class="ray"></div><div class="ray"></div>
+            <div class="ray"></div><div class="ray"></div>
+            <div class="ray"></div><div class="ray"></div>
+            <div class="ray"></div><div class="ray"></div>
+          </div>
+        </div>
+      </div>
+      <p class="loader-text">Fetching the skies…</p>
+    </div>
+
+    <!-- ── Error State ────────────────────────────────────────────── -->
+    <div class="error-state" id="errorState">
+      <div class="error-icon">⚡</div>
+      <h3 id="errorTitle">City Not Found</h3>
+      <p id="errorMsg">Try searching for a different location.</p>
+    </div>
+
+    <!-- ── API Key Notice ─────────────────────────────────────────── -->
+    <div class="api-notice" id="apiNotice">
+      <div class="api-notice-icon">🔑</div>
+      <h3>Add Your API Key</h3>
+      <p>Open <code>app.js</code> and replace <code>YOUR_API_KEY</code> with your free <a href="https://openweathermap.org/api" target="_blank">OpenWeatherMap</a> API key.</p>
+      <p class="api-hint">Then search any city above to get started.</p>
+    </div>
+
+    <!-- ── Main Dashboard ─────────────────────────────────────────── -->
+    <main class="dashboard" id="dashboard">
+
+      <!-- ── Left Column ─────────────────────────────────────────── -->
+      <div class="col-left">
+
+        <!-- Hero Card -->
+        <div class="card hero-card">
+          <div class="hero-top">
+            <div class="hero-location">
+              <div class="location-name" id="cityName">—</div>
+              <div class="location-country" id="countryName">—</div>
+            </div>
+            <div class="weather-icon-wrap" id="weatherIconWrap">
+              <!-- CSS icon injected here -->
+            </div>
+          </div>
+
+          <div class="hero-temp-row">
+            <div class="hero-temp" id="heroTemp">—</div>
+            <div class="hero-temp-info">
+              <div class="hero-desc" id="heroDesc">—</div>
+              <div class="hero-hl">
+                <span class="hl-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2 7h7l-5.5 4 2 7L12 16l-5.5 4 2-7L3 9h7z"/></svg>
+                  <span id="heroHigh">—</span>
+                </span>
+                <span class="hl-item">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22l2-7h7l-5.5-4 2-7L12 8 6.5 4l2 7L3 15h7z"/></svg>
+                  <span id="heroLow">—</span>
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-footer">
+            <div class="hero-stat">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+              <span id="localTime">—</span>
+            </div>
+            <div class="hero-stat">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/></svg>
+              <span id="heroCloud">—</span>
+            </div>
+            <div class="hero-stat">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V12m0 0C12 7 8 3 3 3m9 9c0-5 4-9 9-9"/></svg>
+              <span id="heroFeels">Feels <span id="feelsVal">—</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hourly Forecast -->
+        <div class="card hourly-card">
+          <div class="card-label">HOURLY FORECAST</div>
+          <div class="hourly-scroll" id="hourlyScroll">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+      </div><!-- /col-left -->
+
+      <!-- ── Right Column ────────────────────────────────────────── -->
+      <div class="col-right">
+
+        <!-- Stats Row -->
+        <div class="stats-row">
+          <div class="card stat-card" id="statHumidity">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+            </div>
+            <div class="stat-val" id="humidityVal">—</div>
+            <div class="stat-label">Humidity</div>
+            <div class="stat-bar"><div class="stat-bar-fill" id="humidityBar"></div></div>
+          </div>
+          <div class="card stat-card" id="statWind">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/></svg>
+            </div>
+            <div class="stat-val" id="windVal">—</div>
+            <div class="stat-label">Wind Speed</div>
+            <div class="wind-dir" id="windDir">
+              <div class="wind-arrow" id="windArrow">↑</div>
+            </div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            </div>
+            <div class="stat-val" id="visibilityVal">—</div>
+            <div class="stat-label">Visibility</div>
+            <div class="stat-bar"><div class="stat-bar-fill" id="visibilityBar"></div></div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            </div>
+            <div class="stat-val" id="uvVal">—</div>
+            <div class="stat-label">UV Index</div>
+            <div class="uv-bar">
+              <div class="uv-fill" id="uvFill"></div>
+              <div class="uv-indicator" id="uvIndicator"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sun Times -->
+        <div class="card sun-card">
+          <div class="card-label">SUN SCHEDULE</div>
+          <div class="sun-track">
+            <div class="sun-arc">
+              <svg viewBox="0 0 300 100" class="sun-arc-svg">
+                <defs>
+                  <linearGradient id="arcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="rgba(255,200,80,0.1)"/>
+                    <stop offset="50%" stop-color="rgba(255,200,80,0.5)"/>
+                    <stop offset="100%" stop-color="rgba(255,200,80,0.1)"/>
+                  </linearGradient>
+                </defs>
+                <path d="M 10 90 Q 150 5 290 90" stroke="url(#arcGrad)" stroke-width="2" fill="none" stroke-dasharray="4 6"/>
+                <circle id="sunDot" cx="150" cy="47" r="6" fill="#ffc850"/>
+              </svg>
+            </div>
+            <div class="sun-times">
+              <div class="sun-time-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                <div>
+                  <div class="sun-time-label">Sunrise</div>
+                  <div class="sun-time-val" id="sunriseVal">—</div>
+                </div>
+              </div>
+              <div class="sun-time-item">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                <div>
+                  <div class="sun-time-label">Sunset</div>
+                  <div class="sun-time-val" id="sunsetVal">—</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 5-Day Forecast -->
+        <div class="card forecast-card">
+          <div class="card-label">5-DAY FORECAST</div>
+          <div class="forecast-list" id="forecastList">
+            <!-- Injected by JS -->
+          </div>
+        </div>
+
+        <!-- Pressure + AQI -->
+        <div class="card pressure-card">
+          <div class="card-label">PRESSURE</div>
+          <div class="pressure-gauge">
+            <svg viewBox="0 0 140 80" class="gauge-svg">
+              <defs>
+                <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#4fc3f7"/>
+                  <stop offset="50%" stop-color="#81c784"/>
+                  <stop offset="100%" stop-color="#ff8a65"/>
+                </linearGradient>
+              </defs>
+              <path d="M 15 75 A 55 55 0 0 1 125 75" stroke="rgba(255,255,255,0.08)" stroke-width="10" fill="none" stroke-linecap="round"/>
+              <path id="gaugeFill" d="M 15 75 A 55 55 0 0 1 125 75" stroke="url(#gaugeGrad)" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="0 174"/>
+              <text x="70" y="72" text-anchor="middle" fill="white" font-size="14" font-family="Playfair Display" id="pressureText">—</text>
+              <text x="70" y="84" text-anchor="middle" fill="rgba(255,255,255,0.45)" font-size="7" font-family="Outfit">hPa</text>
+            </svg>
+          </div>
+        </div>
+
+      </div><!-- /col-right -->
+
+    </main><!-- /dashboard -->
+  </div><!-- /app -->
+
+  <script src="app.js"></script>
+</body>
+</html>
